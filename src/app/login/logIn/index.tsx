@@ -114,6 +114,9 @@ export default function LogInM() {
             {loading ? <div className="loader"></div> : "Login"}
           </button>
 
+          {/* Mostrar mensaje de error si existe */}
+          {error && <div className="mt-4 text-red-500">{error}</div>}
+
           <p className="text-center text-sm mt-4">
             Do you not have an account?{" "}
             <Link href="/register" className="text-gray-500">
@@ -125,3 +128,4 @@ export default function LogInM() {
     </main>
   );
 }
+

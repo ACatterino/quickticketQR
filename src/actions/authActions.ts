@@ -1,6 +1,6 @@
-"use server"
+"use server";
 
-import { signIn, signOut } from "@/auth";
+import { signIn } from "@/auth";
 
 export async function login(credentials: { email: string; password: string; }){
     try {
@@ -11,13 +11,44 @@ export async function login(credentials: { email: string; password: string; }){
             },
             body: JSON.stringify(credentials)
         });
+    const data = await result.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-        const data = await result.json();
-        return data;
+export async function getUserByMail(email: string) {
+  try {
+    const result = await fetch(
+      `https://kit-rich-starling.ngrok-free.app/user/information-by-email?email=${email}`
+    );
+    const data = await result.json();
+    return {
+      userId: data._id,
+      email: data.email,
+      role: data.role,
+    };
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
 
-    } catch (error) {
-        console.log(error);
+export async function formLogin(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (result?.error) {
+      return { success: false, error: result.error };
     }
+<<<<<<< HEAD
 };
 
 
@@ -54,3 +85,10 @@ export async function formLogin(formData: FormData){
         return { success: false, error: "Invalid email or password." };
     }
 };
+=======
+    return { success: true, result };
+  } catch {
+    return { success: false, error: "Invalid email or password." };
+  }
+}
+>>>>>>> c67160af44c20b02104635d3611948da96d5b7ec

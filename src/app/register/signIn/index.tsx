@@ -6,6 +6,7 @@ import Message from "@/components/UI/Message";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Link from "next/link";
 
 interface Country {
   name: {
@@ -35,8 +36,8 @@ export default function SignIn() {
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const sortedCountries = data.sort((a: Country, b: Country) => {
+        const data: Country[] = await response.json(); // Tipamos explícitamente la respuesta
+        const sortedCountries = data.sort((a, b) => {
           if (a.name.common < b.name.common) return -1;
           if (a.name.common > b.name.common) return 1;
           return 0;
@@ -110,7 +111,7 @@ export default function SignIn() {
     <main className="flex items-center ">
       <div className="hidden sm:flex flex-col justify-start w-2/3 h-screen gap-4 p-4">
         <div>
-          <a href="/">
+          <Link href="/">
             <Image
               src="/assets/images/icons/icon.svg"
               alt="Aplication Logo"
@@ -118,7 +119,7 @@ export default function SignIn() {
               height={38}
               className="ml-4"
             />
-          </a>
+          </Link>
           <Image
             src="/assets/images/icons/quickticketswhite.svg"
             alt="Aplication Logo"
@@ -138,6 +139,7 @@ export default function SignIn() {
           className="flex flex-col gap-2  pb-1 pt-1 text-sm"
           onSubmit={handleSubmit}
         >
+          {/* Form Fields */}
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -160,11 +162,10 @@ export default function SignIn() {
             required
           />
 
-          <label htmlFor="email">E-mail Adress</label>
+          <label htmlFor="email">E-mail Address</label>
           <input
             type="email"
             name="email"
-            /* pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"  */
             placeholder="Enter your e-mail"
             value={values.email}
             onChange={handleChange}
@@ -174,7 +175,7 @@ export default function SignIn() {
             *Invalid e-mail
           </span>
 
-          <label htmlFor="name">Phone Number</label>
+          <label htmlFor="number">Phone Number</label>
           <input
             type="number"
             name="number"
@@ -196,19 +197,15 @@ export default function SignIn() {
               className="border w-full rounded-md p-2 focus:outline-none border-gray-300 focus:border-gray-500"
               required
             />
-
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2"
             >
-              {showPassword ? (
-                <FaEye className="text-2xl" />
-              ) : (
-                <FaEyeSlash className="text-2xl" />
-              )}
+              {showPassword ? <FaEye className="text-2xl" /> : <FaEyeSlash className="text-2xl" />}
             </button>
           </div>
+
           <label htmlFor="country">Country</label>
           <select
             name="country"
@@ -218,7 +215,7 @@ export default function SignIn() {
             required
           >
             <option value="">Select a Country</option>
-            {countries.map((country: any) => (
+            {countries.map((country) => (
               <option key={country.cca3} value={country.cca3}>
                 {country.name.common}
               </option>
@@ -237,23 +234,15 @@ export default function SignIn() {
           />
           <button
             type="submit"
-            className=" flex items-center justify-center text-lg rounded-md p-3  min-h-[50px] text-white text-bold bg-[#2B293D] hover:bg-[#3F3D51] w-full relative sm:mt-4"
+            className=" flex items-center justify-center text-lg rounded-md p-3 min-h-[50px] text-white text-bold bg-[#2B293D] hover:bg-[#3F3D51] w-full relative sm:mt-4"
           >
-            {loading ? (
-              <div className="absolute left-1/2 transform -translate-x-1/2">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              "Create Account"
-            )}
+            {loading ? <div className="loader"></div> : "Create Account"}
           </button>
-
           <p className="text-sm sm:my-4">
-            Already have an account?
-            <a href="/login" className="text-gray-500">
-              {" "}
+            Already have an account?{" "}
+            <Link href="/login" className="text-gray-500">
               Login
-            </a>
+            </Link>
           </p>
           <Message status={status} />
         </form>
