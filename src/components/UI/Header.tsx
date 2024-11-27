@@ -17,7 +17,7 @@ import { CgMenuRound } from "react-icons/cg";
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false); // Estado para el menú en pantallas pequeñas
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const isAdmin = session?.user?.role === "admin";
 

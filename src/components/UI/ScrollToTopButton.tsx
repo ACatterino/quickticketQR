@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { LuChevronUpCircle } from "react-icons/lu";
 
 const ScrollToTopButton: React.FC = () => {
