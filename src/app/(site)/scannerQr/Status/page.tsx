@@ -23,7 +23,7 @@ const TicketStatusSimple = () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            token: `${session?.accessToken || ""}`,
+            token: (session as { accessToken: string }).accessToken || "",
           },
           body: JSON.stringify({ ticketId }), // Usamos el ticketId desde la query
         });
