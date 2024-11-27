@@ -32,7 +32,7 @@ export const { handlers , signIn, signOut, auth } = NextAuth({
                    return null;
                 
                 }
-            } catch (error) {
+            } catch {
                 throw new Error("Invalid Email or Password");
                 
             }
