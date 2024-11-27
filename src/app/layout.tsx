@@ -34,6 +34,7 @@ export default function RootLayout({
           pauseOnHover = {false}
           theme = "colored"
         />
+        
       </body>
     </html>
   );
